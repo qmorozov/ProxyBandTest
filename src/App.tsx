@@ -1,11 +1,17 @@
-import React from 'react';
+import { Route, Routes, BrowserRouter as Router } from 'react-router-dom';
+import Post from './modules/Post';
 import Main from './modules/Main';
+import Album from './modules/Album';
 
 const App = () => {
   return (
-    <>
-      <Main />
-    </>
+    <Router>
+      <Routes>
+        <Route path="/" element={<Main />} />
+        <Route path="/post/:id" element={<Post />} />
+        <Route path="/album/:id" element={<Album />} />
+      </Routes>
+    </Router>
   );
 };
 

@@ -29,7 +29,7 @@ const Main = () => {
     fetchPosts();
   }, []);
 
-  return <></>;
+  return <>fsdfdsf</>;
 };
 
 export default Main;
