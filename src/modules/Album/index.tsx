@@ -1,4 +1,4 @@
-import { useAppDispatch } from '../../hooks/useAppRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppRedux';
 import { useParams } from 'react-router-dom';
 import axios from 'axios';
 import { useEffect } from 'react';
@@ -7,11 +7,13 @@ import {
   getAlbumsStart,
   getAlbumsSuccess,
 } from './store/album';
+import Loader from '../../components/Loader';
 
 const Album = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
 
+  const { albums, loading, error } = useAppSelector((state) => state.albums);
   const fetchAlbums = async (id: string) => {
     dispatch(getAlbumsStart());
 
@@ -31,6 +33,10 @@ const Album = () => {
       fetchAlbums(id);
     }
   }, [id]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return <></>;
 };

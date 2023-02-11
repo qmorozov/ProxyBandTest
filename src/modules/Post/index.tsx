@@ -1,12 +1,14 @@
 import { useParams } from 'react-router-dom';
 import { getPostsError, getPostsStart, getPostsSuccess } from './store/post';
 import axios from 'axios';
-import { useAppDispatch } from '../../hooks/useAppRedux';
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppRedux';
 import { useEffect } from 'react';
+import Loader from '../../components/Loader';
 
 const Post = () => {
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
+  const { posts, loading, error } = useAppSelector((state) => state.posts);
 
   const fetchPosts = async (id: string) => {
     dispatch(getPostsStart());
@@ -27,6 +29,10 @@ const Post = () => {
       fetchPosts(id);
     }
   }, [id]);
+
+  if (loading) {
+    return <Loader />;
+  }
 
   return <></>;
 };

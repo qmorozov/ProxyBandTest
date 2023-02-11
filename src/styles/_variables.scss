@@ -1,0 +1,11 @@
+@use 'sass:math' as math;
+
+/* ==== Color ==== */
+
+$text: #000;
+
+/* ==== Functions ==== */
+
+@function rem($size) {
+  @return math.div($size, 16px) * 1rem;
+}

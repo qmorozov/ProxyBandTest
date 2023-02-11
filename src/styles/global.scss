@@ -1,1 +1,21 @@
+@use 'variables' as variables;
 @import 'normalize.css';
+
+/* ==== Parts ==== */
+@import 'parts/reset';
+
+body {
+  position: relative;
+  min-height: 100vh;
+  font-family: 'Roboto', sans-serif;
+  letter-spacing: -0.02em;
+  background-color: #f2f2f2;
+  color: variables.$text;
+  overflow-x: hidden;
+}
+
+.container {
+  margin: 0 auto;
+  padding: 0 variables.rem(15px);
+  max-width: variables.rem(1136px);
+}
