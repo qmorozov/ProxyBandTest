@@ -1,5 +1,5 @@
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppRedux';
-import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import Loader from '../../components/Loader';
 import {
@@ -8,10 +8,12 @@ import {
   getUsersSuccess,
   IUser,
 } from './store/main';
+import axios from 'axios';
 
 import Style from '../../styles/pages/Main.module.scss';
 
 const Main = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { users, loading, error } = useAppSelector((state) => state.users);
 
@@ -51,6 +53,18 @@ const Main = () => {
             {user.address.city}, {user.address.zipcode}
           </p>
           <p>Company: {user.company.name}</p>
+          <button
+            className="button"
+            onClick={() => navigate(`/posts/${user.id}`)}
+          >
+            user posts
+          </button>
+          <button
+            className="button"
+            onClick={() => navigate(`/albums/${user.id}`)}
+          >
+            user albums
+          </button>
         </li>
       ))}
     </ul>

@@ -9,12 +9,6 @@
   border-radius: variables.rem(8px);
   margin-bottom: variables.rem(16px);
   padding: variables.rem(16px);
-  cursor: pointer;
-  transition: background-color 0.3s ease-in-out;
-
-  &:hover {
-    background-color: darken(#f0f0f0, 10%);
-  }
 
   h3 {
     margin-top: 0;

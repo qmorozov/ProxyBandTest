@@ -1,11 +1,13 @@
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getPostsError, getPostsStart, getPostsSuccess } from './store/post';
 import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppRedux';
 import { useEffect } from 'react';
 import Loader from '../../components/Loader';
+import Style from '../../styles/pages/Posts.module.scss';
 
 const Post = () => {
+  const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const { id } = useParams<{ id: string }>();
   const { posts, loading, error } = useAppSelector((state) => state.posts);
@@ -34,7 +36,21 @@ const Post = () => {
     return <Loader />;
   }
 
-  return <></>;
+  return (
+    <>
+      <button className="button" onClick={() => navigate(-1)}>
+        Back
+      </button>
+      <ul className={Style.List}>
+        {posts.map(({ id, title, body }) => (
+          <li key={id} className={Style.Post}>
+            <h2>{title}</h2>
+            <p>{body}</p>
+          </li>
+        ))}
+      </ul>
+    </>
+  );
 };
 
 export default Post;

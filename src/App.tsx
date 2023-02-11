@@ -9,8 +9,8 @@ const App = () => {
       <Router>
         <Routes>
           <Route path="/" element={<Main />} />
-          <Route path="/post/:id" element={<Post />} />
-          <Route path="/album/:id" element={<Album />} />
+          <Route path="/posts/:id" element={<Post />} />
+          <Route path="/albums/:id" element={<Album />} />
         </Routes>
       </Router>
     </div>

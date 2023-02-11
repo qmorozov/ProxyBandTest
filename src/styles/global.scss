@@ -19,3 +19,23 @@ body {
   padding: 0 variables.rem(15px);
   max-width: variables.rem(1136px);
 }
+
+.button {
+  margin-top: 20px;
+  padding: 20px 30px;
+  background-color: grey;
+  cursor: pointer;
+  border-radius: 8px;
+  color: white;
+  text-transform: uppercase;
+  font-size: 12px;
+  transition: background-color 0.3s ease-in-out;
+
+  &:not(:first-of-type) {
+    margin-left: 12px;
+  }
+
+  &:hover {
+    background-color: darken(grey, 10%);
+  }
+}

@@ -1,0 +1,28 @@
+@use '../../styles/variables' as variables;
+
+.List {
+  padding: variables.rem(40px) 0;
+}
+
+.Post {
+  display: flex;
+  flex-direction: column;
+  padding: variables.rem(20px);
+  border-radius: variables.rem(8px);
+  background-color: lighten(gray, 40%);
+
+  &:not(:last-child) {
+    margin-bottom: variables.rem(30px);
+  }
+
+  h2 {
+    font-size: variables.rem(24px);
+    font-weight: bold;
+    margin-bottom: variables.rem(8px);
+  }
+
+  p {
+    font-size: variables.rem(16px);
+    margin-bottom: variables.rem(16px);
+  }
+}
