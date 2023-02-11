@@ -94,7 +94,7 @@ const Main = () => {
               <p>Company: {company.name}</p>
               <button
                 className="button"
-                onClick={() => navigate(`ProxyBandTest/posts/${id}`)}
+                onClick={() => navigate(`/ProxyBandTest/posts/${id}`)}
               >
                 user posts
               </button>
