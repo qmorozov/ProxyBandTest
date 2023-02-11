@@ -5,13 +5,15 @@ import Album from './modules/Album';
 
 const App = () => {
   return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<Main />} />
-        <Route path="/post/:id" element={<Post />} />
-        <Route path="/album/:id" element={<Album />} />
-      </Routes>
-    </Router>
+    <div className="container">
+      <Router>
+        <Routes>
+          <Route path="/" element={<Main />} />
+          <Route path="/post/:id" element={<Post />} />
+          <Route path="/album/:id" element={<Album />} />
+        </Routes>
+      </Router>
+    </div>
   );
 };
 
