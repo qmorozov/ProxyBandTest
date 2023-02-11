@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IPost {
   userId: number;
@@ -7,19 +7,39 @@ interface IPost {
   body: string;
 }
 
-interface ICounterState {
+interface IPostInitialState {
   posts: IPost[];
+  loading: boolean;
+  error: string | null;
 }
 
-const initialState: ICounterState = {
+const initialState: IPostInitialState = {
   posts: [],
+  loading: false,
+  error: null,
 };
 
 const postsSlice = createSlice({
   name: 'posts',
   initialState,
-  reducers: {},
+  reducers: {
+    getPostsStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+
+    getPostsSuccess(state, action: PayloadAction<IPost[]>) {
+      state.loading = false;
+      state.posts = action.payload;
+    },
+
+    getPostsError(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+  },
 });
 
-export const {} = postsSlice.actions;
+export const { getPostsStart, getPostsSuccess, getPostsError } =
+  postsSlice.actions;
 export default postsSlice;

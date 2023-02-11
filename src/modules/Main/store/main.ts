@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IUser {
   id: number;
@@ -17,19 +17,39 @@ interface IUser {
   };
 }
 
-interface IUsers {
+interface IUsersInitialState {
   users: IUser[];
+  loading: boolean;
+  error: string | null;
 }
 
-const initialState: IUsers = {
+const initialState: IUsersInitialState = {
   users: [],
+  loading: false,
+  error: null,
 };
 
 const usersSlice = createSlice({
   name: 'users',
   initialState,
-  reducers: {},
+  reducers: {
+    getUsersStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+
+    getUsersSuccess(state, action: PayloadAction<IUser[]>) {
+      state.loading = false;
+      state.users = action.payload;
+    },
+
+    getUsersError(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+  },
 });
 
-export const {} = usersSlice.actions;
+export const { getUsersStart, getUsersSuccess, getUsersError } =
+  usersSlice.actions;
 export default usersSlice;

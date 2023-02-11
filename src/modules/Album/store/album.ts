@@ -1,4 +1,4 @@
-import { createSlice } from '@reduxjs/toolkit';
+import { createSlice, PayloadAction } from '@reduxjs/toolkit';
 
 interface IAlbums {
   userId: number;
@@ -6,19 +6,39 @@ interface IAlbums {
   title: string;
 }
 
-interface ICounterState {
+interface IAlbumsInitialState {
   albums: IAlbums[];
+  error: string | null;
+  loading: boolean;
 }
 
-const initialState: ICounterState = {
+const initialState: IAlbumsInitialState = {
   albums: [],
+  error: null,
+  loading: false,
 };
 
 const albumsSlice = createSlice({
   name: 'albums',
   initialState,
-  reducers: {},
+  reducers: {
+    getAlbumsStart(state) {
+      state.loading = true;
+      state.error = null;
+    },
+
+    getAlbumsSuccess(state, action: PayloadAction<IAlbums[]>) {
+      state.loading = false;
+      state.albums = action.payload;
+    },
+
+    getAlbumsError(state, action: PayloadAction<string>) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+  },
 });
 
-export const {} = albumsSlice.actions;
+export const { getAlbumsStart, getAlbumsSuccess, getAlbumsError } =
+  albumsSlice.actions;
 export default albumsSlice;
