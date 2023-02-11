@@ -1,73 +1,117 @@
-import { useAppDispatch, useAppSelector } from '../../hooks/useAppRedux';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useEffect } from 'react';
-import Loader from '../../components/Loader';
+import { useAppDispatch, useAppSelector } from '../../hooks/useAppRedux';
 import {
   getUsersError,
   getUsersStart,
   getUsersSuccess,
   IUser,
 } from './store/main';
-import axios from 'axios';
+import { fetchAlbums, fetchUsers, IAlbum } from '../api';
+import Modal from '../../components/Modal';
+import Loader from '../../components/Loader';
 
 import Style from '../../styles/pages/Main.module.scss';
 
 const Main = () => {
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
+  const [visibleModal, setVisibleModal] = useState(false);
+  const [modalData, setModalData] = useState<IAlbum[]>([]);
   const { users, loading, error } = useAppSelector((state) => state.users);
 
-  const fetchUsers = async () => {
+  const getUsers = async () => {
     dispatch(getUsersStart());
 
     try {
-      const response = await axios.get(
-        'https://jsonplaceholder.typicode.com/users'
-      );
-      const posts = response.data;
-      dispatch(getUsersSuccess(posts));
-    } catch (error: any) {
-      dispatch(getUsersError(error.message));
+      const users = await fetchUsers();
+      dispatch(getUsersSuccess(users));
+    } catch (error) {
+      if (error instanceof Error) {
+        dispatch(getUsersError(error.message));
+      }
+    }
+  };
+
+  const getAlbums = async (id: number) => {
+    try {
+      const albums = await fetchAlbums(id);
+      setModalData(albums);
+    } catch (error) {
+      console.error(error);
     }
   };
 
   useEffect(() => {
-    fetchUsers();
+    getUsers();
   }, []);
 
-  if (loading) {
-    return <Loader />;
-  }
+  useEffect(() => {
+    if (!visibleModal) {
+      setModalData([]);
+    }
+  }, [visibleModal]);
+
+  if (loading) <Loader />;
+
+  if (error) <strong>{error}</strong>;
 
   return (
-    <ul className={Style.List}>
-      {users.map((user: IUser) => (
-        <li key={user.id} className={Style.User}>
-          <h3>{user.name}</h3>
-          <p>Username: {user.username}</p>
-          <p>Email: {user.email}</p>
-          <p>Phone: {user.phone}</p>
-          <p>Website: {user.website}</p>
-          <p>
-            Address: {user.address.street}, {user.address.suite},{' '}
-            {user.address.city}, {user.address.zipcode}
-          </p>
-          <p>Company: {user.company.name}</p>
-          <button
-            className="button"
-            onClick={() => navigate(`/posts/${user.id}`)}
-          >
-            user posts
-          </button>
-          <button
-            className="button"
-            onClick={() => navigate(`/albums/${user.id}`)}
-          >
-            user albums
-          </button>
-        </li>
-      ))}
-    </ul>
+    <>
+      <Modal visible={visibleModal} setVisible={setVisibleModal}>
+        {modalData.length ? (
+          modalData.map(({ id, title }) => (
+            <div key={id}>
+              <h3>{title}</h3>
+            </div>
+          ))
+        ) : (
+          <Loader />
+        )}
+      </Modal>
+      <ul className={Style.List}>
+        {users.map(
+          ({
+            id,
+            name,
+            username,
+            email,
+            phone,
+            website,
+            address,
+            company,
+          }: IUser) => (
+            <li key={id} className={Style.User}>
+              <h3>{name}</h3>
+              <p>Username: {username}</p>
+              <p>Email: {email}</p>
+              <p>Phone: {phone}</p>
+              <p>Website: {website}</p>
+              <p>
+                Address: {address.street}, {address.suite}, {address.city},{' '}
+                {address.zipcode}
+              </p>
+              <p>Company: {company.name}</p>
+              <button
+                className="button"
+                onClick={() => navigate(`ProxyBandTest/posts/${id}`)}
+              >
+                user posts
+              </button>
+              <button
+                className="button"
+                onClick={() => {
+                  setVisibleModal(true);
+                  getAlbums(id);
+                }}
+              >
+                user albums
+              </button>
+            </li>
+          )
+        )}
+      </ul>
+    </>
   );
 };
 

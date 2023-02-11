@@ -1,0 +1,81 @@
+@use '../variables';
+
+.Container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 1;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background-color: rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity .3s ease-in-out;
+
+  &.Visible {
+    opacity: 1;
+    pointer-events: all;
+  }
+}
+
+.Wrapper {
+  display: inline-block;
+  position: relative;
+  width: 100%;
+  max-width: variables.rem(400px);
+  height: fit-content;
+  min-height: variables.rem(400px);
+  max-height: variables.rem(536px);
+  padding: variables.rem(34px) variables.rem(30px) variables.rem(46px)
+  variables.rem(26px);
+  margin: 0 variables.rem(15px);
+  background-color: #fff;
+  border-radius: variables.rem(24px);
+  transform: scale(0.5);
+  transition: transform .2s ease-in-out;
+
+  &.Visible {
+    transform: scale(1);
+  }
+}
+
+.Close {
+  position: absolute;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  top: variables.rem(-14px);
+  right: variables.rem(-10px);
+  width: variables.rem(40px);
+  height: variables.rem(40px);
+  background-color: #f2f2f2;
+  border-radius: 100%;
+  cursor: pointer;
+  transition: background-color 0.3s ease-in-out;
+
+  &:hover {
+    background-color: darken(#f2f2f2, 10%);
+  }
+
+  &::before,
+  &::after {
+    position: absolute;
+    content: '';
+    display: block;
+    width: variables.rem(12px);
+    height: variables.rem(2px);
+    background-color: #000;
+    border-radius: 100%;
+  }
+
+  &::before {
+    transform: rotate(45deg);
+  }
+
+  &::after {
+    transform: rotate(-45deg);
+  }
+}

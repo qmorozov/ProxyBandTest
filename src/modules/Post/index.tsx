@@ -1,9 +1,10 @@
 import { useNavigate, useParams } from 'react-router-dom';
 import { getPostsError, getPostsStart, getPostsSuccess } from './store/post';
-import axios from 'axios';
 import { useAppDispatch, useAppSelector } from '../../hooks/useAppRedux';
 import { useEffect } from 'react';
+import { fetchPosts } from '../api';
 import Loader from '../../components/Loader';
+
 import Style from '../../styles/pages/Posts.module.scss';
 
 const Post = () => {
@@ -12,29 +13,24 @@ const Post = () => {
   const { id } = useParams<{ id: string }>();
   const { posts, loading, error } = useAppSelector((state) => state.posts);
 
-  const fetchPosts = async (id: string) => {
+  const getPosts = async (id: string) => {
     dispatch(getPostsStart());
 
     try {
-      const response = await axios.get(
-        `https://jsonplaceholder.typicode.com/posts?userId=${id}`
-      );
-      const posts = response.data;
+      const posts = await fetchPosts(id);
       dispatch(getPostsSuccess(posts));
-    } catch (error: any) {
-      dispatch(getPostsError(error.message));
+    } catch (error) {
+      if (error instanceof Error) dispatch(getPostsError(error.message));
     }
   };
 
   useEffect(() => {
-    if (id) {
-      fetchPosts(id);
-    }
+    if (id) getPosts(id);
   }, [id]);
 
-  if (loading) {
-    return <Loader />;
-  }
+  if (loading) <Loader />;
+
+  if (error) <strong>{error}</strong>;
 
   return (
     <>

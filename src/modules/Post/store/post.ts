@@ -1,11 +1,5 @@
 import { createSlice, PayloadAction } from '@reduxjs/toolkit';
-
-interface IPost {
-  userId: number;
-  id: number;
-  title: string;
-  body: string;
-}
+import { IPost } from '../../api';
 
 export interface IPostInitialState {
   posts: IPost[];
