@@ -7,7 +7,7 @@ interface IPost {
   body: string;
 }
 
-interface IPostInitialState {
+export interface IPostInitialState {
   posts: IPost[];
   loading: boolean;
   error: string | null;
